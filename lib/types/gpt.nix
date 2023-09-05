@@ -98,6 +98,8 @@ in
     _create = diskoLib.mkCreateOption {
       inherit config options;
       default = ''
+        dd if=/dev/zero of=${config.device} count=1
+
         ${lib.concatStrings (map (partition: ''
           sgdisk \
             --new=${toString partition._index}:${partition.start}:${partition.end} \

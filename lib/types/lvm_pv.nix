@@ -31,7 +31,7 @@
     _create = diskoLib.mkCreateOption {
       inherit config options;
       default = ''
-        pvcreate ${config.device}
+        pvcreate ${config.device} -ff
         echo "${config.device}" >>"$disko_devices_dir"/lvm_${config.vg}
       '';
     };
