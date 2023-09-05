@@ -58,6 +58,8 @@
           sortedLvs = lib.sort (a: _: !lib.hasInfix "100%" a.size) (lib.attrValues config.lvs);
         in
         ''
+          modprobe dm-raid0
+
           readarray -t lvm_devices < <(cat "$disko_devices_dir"/lvm_${config.name})
           vgcreate ${config.name} \
             "''${lvm_devices[@]}"
