@@ -103,6 +103,13 @@
             (lib.optional (lv.lvm_type != null) {
               boot.initrd.kernelModules = [ "dm-${lv.lvm_type}" ];
             })
+            (lib.optional (lib.hasPrefix "raid" lv.lvm_type)
+              (if lib.versionAtLeast (lib.versions.majorMinor lib.version) "23.11" then {
+                boot.swraid.enable = true;
+              } else {
+                boot.initrd.services.swraid.enable = true;
+              })
+            )
           ])
           (lib.attrValues config.lvs);
       description = "NixOS configuration";
